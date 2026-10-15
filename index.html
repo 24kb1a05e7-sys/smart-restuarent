@@ -2,380 +2,84 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Smart Restaurant</title>
-<style>
-* { box-sizing: border-box; }
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f5f6f8;
-  color: #222;
-}
-header {
-  background: #173f35;
-  color: white;
-  padding: 20px 5%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-header h1 { margin: 0; font-size: 24px; }
-header p { margin: 5px 0 0; color: #d9e8e1; }
-.container { max-width: 1200px; margin: auto; padding: 24px; }
-.controls {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin-bottom: 22px;
-}
-select, input, button {
-  padding: 11px;
-  border-radius: 8px;
-  border: 1px solid #ddd;
-  font-size: 15px;
-}
-button { cursor: pointer; }
-.primary {
-  background: #e87536;
-  color: white;
-  border: none;
-  font-weight: bold;
-}
-.primary:hover { background: #cb5f27; }
-.layout {
-  display: grid;
-  grid-template-columns: 1fr 330px;
-  gap: 24px;
-  align-items: start;
-}
-.categories {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-bottom: 18px;
-}
-.categories button {
-  background: white;
-  border: 1px solid #ddd;
-}
-.categories button.active {
-  background: #173f35;
-  color: white;
-}
-.menu {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
-}
-.food, .cart, .bill {
-  background: white;
-  padding: 17px;
-  border-radius: 13px;
-  box-shadow: 0 3px 12px #00000008;
-}
-.food .emoji { font-size: 42px; }
-.food h3 { margin: 10px 0 5px; }
-.food p { color: #777; font-size: 13px; min-height: 30px; }
-.food-bottom {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 8px;
-}
-.price { color: #173f35; font-weight: bold; }
-.cart { position: sticky; top: 15px; }
-.cart h2 { margin-top: 0; }
-.cart-item {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  padding: 12px 0;
-  border-bottom: 1px solid #eee;
-}
-.cart-item small { display: block; color: #777; margin-top: 5px; }
-.qty { display: flex; gap: 8px; align-items: center; margin-top: 7px; }
-.qty button { padding: 3px 9px; }
-.summary {
-  border-top: 1px solid #ddd;
-  margin-top: 15px;
-  padding-top: 10px;
-}
-.summary div {
-  display: flex;
-  justify-content: space-between;
-  margin: 10px 0;
-}
-.total { font-size: 19px; font-weight: bold; }
-.full { width: 100%; margin-top: 10px; }
-.empty { color: #888; text-align: center; padding: 20px 0; }
-#billSection { display: none; margin-top: 25px; }
-.bill { max-width: 600px; margin: auto; }
-.bill h2, .bill h3 { text-align: center; }
-.bill-row {
-  display: flex;
-  justify-content: space-between;
-  padding: 8px 0;
-  border-bottom: 1px dashed #ddd;
-}
-footer { text-align: center; padding: 25px; color: #777; }
-@media(max-width: 760px) {
-  .layout { grid-template-columns: 1fr; }
-  .cart { position: static; }
-  .menu { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .container { padding: 14px; }
-}
-@media(max-width: 400px) {
-  .menu { grid-template-columns: 1fr; }
-}
-@media print {
-  header, .controls, .layout, footer, .no-print { display: none !important; }
-  #billSection { display: block !important; }
-  body { background: white; }
-  .bill { box-shadow: none; }
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Restaurant Ordering App</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<header>
-  <div>
-    <h1>🍽️ Smart Restaurant</h1>
-    <p>Order fresh. Eat happy.</p>
-  </div>
-  <strong>TABLE SERVICE</strong>
-</header>
+    <header>
+        <h1>🍽️ Smart Restaurant</h1>
+        <p>Smart Table Ordering & Billing System</p>
+    </header>
 
-<main class="container">
-  <div class="controls">
-    <label>
-      Table:
-      <select id="table">
-        <option value="1">Table 1</option>
-        <option value="2">Table 2</option>
-        <option value="3">Table 3</option>
-        <option value="4">Table 4</option>
-        <option value="5">Table 5</option>
-      </select>
-    </label>
-    <input id="search" type="search" placeholder="Search food..." />
-  </div>
+    <main class="container">
 
-  <div class="layout">
-    <section>
-      <h2>Our Menu</h2>
-      <div class="categories" id="categories"></div>
-      <div class="menu" id="menu"></div>
-    </section>
+        <section class="table-selection">
+            <label for="table">Select Table:</label>
+            <select id="table">
+                <option value="1">Table 1</option>
+                <option value="2">Table 2</option>
+                <option value="3">Table 3</option>
+                <option value="4">Table 4</option>
+                <option value="5">Table 5</option>
+            </select>
 
-    <aside class="cart">
-      <h2>🛒 Your Order</h2>
-      <div id="cartItems"></div>
+            <input type="text" id="search"
+                   placeholder="Search food...">
+        </section>
 
-      <div class="summary">
-        <div><span>Subtotal</span><span id="subtotal">₹0.00</span></div>
-        <div><span>GST (5%)</span><span id="tax">₹0.00</span></div>
-        <div class="total"><span>Total</span><span id="total">₹0.00</span></div>
-      </div>
+        <div class="layout">
+            <section class="menu-section">
+                <h2>Our Menu</h2>
 
-      <button class="primary full" onclick="placeOrder()">
-        Place Order
-      </button>
-      <button class="full" onclick="clearCart()">Clear Cart</button>
-      <p style="font-size:12px;color:#888">
-        Demo only: orders are not sent to a kitchen.
-      </p>
-    </aside>
-  </div>
+                <div class="categories">
+                    <button onclick="filterMenu('All')">All</button>
+                    <button onclick="filterMenu('Snacks')">Snacks</button>
+                    <button onclick="filterMenu('Meals')">Meals</button>
+                    <button onclick="filterMenu('Drinks')">Drinks</button>
+                </div>
 
-  <section id="billSection">
-    <div class="bill" id="billContent"></div>
-  </section>
-</main>
+                <div id="menu" class="menu"></div>
+            </section>
 
-<footer>Thank you for dining with us ❤️</footer>
+            <section class="cart-section">
+                <h2>🛒 Your Order</h2>
 
-<script>
-const foods = [
-  {id:1, name:"Veg Burger", category:"Snacks", price:99, emoji:"🍔", desc:"Crispy vegetable patty"},
-  {id:2, name:"French Fries", category:"Snacks", price:79, emoji:"🍟", desc:"Golden crispy fries"},
-  {id:3, name:"Margherita Pizza", category:"Snacks", price:199, emoji:"🍕", desc:"Cheese and tomato pizza"},
-  {id:4, name:"Veg Biryani", category:"Meals", price:179, emoji:"🍛", desc:"Aromatic vegetable biryani"},
-  {id:5, name:"Paneer Curry", category:"Meals", price:189, emoji:"🥘", desc:"Creamy paneer curry"},
-  {id:6, name:"Masala Dosa", category:"Meals", price:99, emoji:"🥞", desc:"South Indian crispy dosa"},
-  {id:7, name:"Chocolate Cake", category:"Desserts", price:89, emoji:"🍰", desc:"Rich chocolate dessert"},
-  {id:8, name:"Ice Cream", category:"Desserts", price:59, emoji:"🍨", desc:"Vanilla ice cream"},
-  {id:9, name:"Fresh Lime Soda", category:"Drinks", price:49, emoji:"🥤", desc:"Refreshing lime soda"},
-  {id:10, name:"Cold Coffee", category:"Drinks", price:89, emoji:"☕", desc:"Chilled creamy coffee"}
-];
+                <div id="cartItems">
+                    Your cart is empty.
+                </div>
 
-let cart = {};
-let activeCategory = "All";
-let lastBill = null;
+                <hr>
 
-const money = n => "₹" + n.toFixed(2);
+                <p>Subtotal: <span id="subtotal">₹0.00</span></p>
+                <p>GST (5%): <span id="tax">₹0.00</span></p>
+                <h3>Total: <span id="total">₹0.00</span></h3>
 
-function renderCategories() {
-  const categories = ["All", ...new Set(foods.map(f => f.category))];
-  document.getElementById("categories").innerHTML =
-    categories.map(c => `
-      <button class="${activeCategory === c ? "active" : ""}"
-        onclick="setCategory('${c}')">${c}</button>
-    `).join("");
-}
+                <button class="order-btn" onclick="placeOrder()">
+                    Place Order
+                </button>
 
-function setCategory(category) {
-  activeCategory = category;
-  renderCategories();
-  renderMenu();
-}
-
-function renderMenu() {
-  const search = document.getElementById("search").value.toLowerCase();
-  const filtered = foods.filter(f =>
-    (activeCategory === "All" || f.category === activeCategory) &&
-    f.name.toLowerCase().includes(search)
-  );
-
-  document.getElementById("menu").innerHTML = filtered.map(f => `
-    <article class="food">
-      <div class="emoji">${f.emoji}</div>
-      <h3>${f.name}</h3>
-      <p>${f.desc}</p>
-      <div class="food-bottom">
-        <span class="price">${money(f.price)}</span>
-        <button class="primary" onclick="addItem(${f.id})">+ Add</button>
-      </div>
-    </article>
-  `).join("") || "<p>No food items found.</p>";
-}
-
-function addItem(id) {
-  cart[id] = (cart[id] || 0) + 1;
-  renderCart();
-}
-
-function changeQty(id, amount) {
-  cart[id] = (cart[id] || 0) + amount;
-  if (cart[id] <= 0) delete cart[id];
-  renderCart();
-}
-
-function clearCart() {
-  cart = {};
-  renderCart();
-}
-
-function calculate() {
-  const subtotal = foods.reduce(
-    (sum, f) => sum + f.price * (cart[f.id] || 0), 0
-  );
-  const tax = subtotal * 0.05;
-  return {subtotal, tax, total: subtotal + tax};
-}
-
-function renderCart() {
-  const items = foods.filter(f => cart[f.id]);
-  document.getElementById("cartItems").innerHTML = items.length
-    ? items.map(f => `
-      <div class="cart-item">
-        <div>
-          <strong>${f.name}</strong>
-          <small>${money(f.price)} each</small>
-          <div class="qty">
-            <button onclick="changeQty(${f.id},-1)">−</button>
-            <span>${cart[f.id]}</span>
-            <button onclick="changeQty(${f.id},1)">+</button>
-          </div>
+                <button class="clear-btn" onclick="clearCart()">
+                    Clear Cart
+                </button>
+            </section>
         </div>
-        <strong>${money(f.price * cart[f.id])}</strong>
-      </div>
-    `).join("")
-    : '<div class="empty">Your cart is empty.</div>';
 
-  const totals = calculate();
-  document.getElementById("subtotal").textContent = money(totals.subtotal);
-  document.getElementById("tax").textContent = money(totals.tax);
-  document.getElementById("total").textContent = money(totals.total);
-}
+        <section id="billSection" class="bill-section" hidden>
+            <h2>Restaurant Bill</h2>
+            <div id="billContent"></div>
+            <button onclick="window.print()">Print Bill</button>
+            <button onclick="newOrder()">New Order</button>
+        </section>
 
-function placeOrder() {
-  const items = foods.filter(f => cart[f.id]);
-  if (!items.length) {
-    alert("Please add food items before placing an order.");
-    return;
-  }
+    </main>
 
-  const totals = calculate();
-  const order = {
-    number: "ORD-" + Date.now().toString().slice(-6),
-    table: document.getElementById("table").value,
-    date: new Date().toLocaleString(),
-    items: items.map(f => ({
-      name: f.name,
-      price: f.price,
-      qty: cart[f.id]
-    })),
-    ...totals
-  };
+    <footer>
+        <p>Thank you for visiting Smart Restaurant!</p>
+    </footer>
 
-  lastBill = order;
-  showBill(order);
-
-  document.getElementById("billSection").style.display = "block";
-  document.getElementById("billSection").scrollIntoView({
-    behavior: "smooth"
-  });
-}
-
-function showBill(order) {
-  document.getElementById("billContent").innerHTML = `
-    <h2>🍽️ Smart Restaurant</h2>
-    <h3>ORDER BILL</h3>
-    <p><strong>Order ID:</strong> ${order.number}</p>
-    <p><strong>Table:</strong> ${order.table}</p>
-    <p><strong>Date:</strong> ${order.date}</p>
-    <hr>
-    ${order.items.map(item => `
-      <div class="bill-row">
-        <span>${item.name} × ${item.qty}</span>
-        <span>${money(item.price * item.qty)}</span>
-      </div>
-    `).join("")}
-    <div class="bill-row">
-      <span>Subtotal</span><span>${money(order.subtotal)}</span>
-    </div>
-    <div class="bill-row">
-      <span>GST (5%)</span><span>${money(order.tax)}</span>
-    </div>
-    <div class="bill-row" style="font-weight:bold;font-size:19px">
-      <span>Total</span><span>${money(order.total)}</span>
-    </div>
-    <h3>Thank you! Visit again.</h3>
-    <button class="primary full no-print" onclick="window.print()">
-      Print Bill
-    </button>
-    <button class="full no-print" onclick="newOrder()">New Order</button>
-  `;
-}
-
-function newOrder() {
-  cart = {};
-  lastBill = null;
-  renderCart();
-  document.getElementById("billSection").style.display = "none";
-  window.scrollTo({top:0, behavior:"smooth"});
-}
-
-document.getElementById("search").addEventListener("input", renderMenu);
-
-renderCategories();
-renderMenu();
-renderCart();
-</script>
-
+    <script src="script.js"></script>
 </body>
 </html>
